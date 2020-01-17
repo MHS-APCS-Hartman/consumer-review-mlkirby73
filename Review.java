@@ -165,4 +165,31 @@ public class Review {
       return randomNegativeAdj();
     }
   }
+  public static int starRating(String fileName)
+   {
+     double sentiment = totalSentiment(fileName);
+     int rating;
+     
+     if (sentiment < -3)
+     {
+       rating = 1;
+     }
+     else if (sentiment < 0)
+     {
+       rating = 2;
+     }
+     else if (sentiment < 3)
+     {
+       rating = 3;
+     }
+     else if (sentiment < 6)
+     {
+       rating = 4;
+     }
+     else
+     {
+       rating = 5;
+     }
+     return rating;
+    }
 }
