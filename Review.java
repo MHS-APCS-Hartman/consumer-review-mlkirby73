@@ -193,4 +193,58 @@ public class Review {
      }
      return rating;
     }
+  
+    /* Returns a computer generated online review that can be either positive or negative. */
+    public static String fakeReviewStronger(String fileName)
+    {
+        String word = "";
+        String reviewText = textToString(fileName);
+        String newReview = "";
+        
+        for (int i = 0; i < reviewText.length(); i++)
+        {
+             if (reviewText.substring(i, i+1).equals(" ") || i == reviewText.length() -1)
+             {
+                   if (i == reviewText.length() -1) //adds last letter to the review
+                   {
+                      word += reviewText.substring(i, i+1);
+                   }
+             
+                 if (word.startsWith("*"))
+                 {
+                     double sentiment = sentimentVal(word);
+                     String newAdjective = "";
+                     
+                     if (sentiment > 0)
+                     {
+                         while (newAdjective.equals("") || sentimentVal(newAdjective) <= sentiment)
+                         {
+                           newAdjective = randomPositiveAdj();
+                         }
+                     }
+                     else
+                     {
+                         while (newAdjective.equals("") || sentimentVal(newAdjective) >= sentiment)
+                         {
+                           newAdjective = randomNegativeAdj();
+                         }
+                     }
+                     
+                     newReview += newAdjective + getPunctuation(word) + " ";
+                     word = "";
+                 }
+                 else
+                 {
+                     newReview += word + " ";
+                     word = "";
+                 }
+               }
+               else
+               {
+                  word += reviewText.substring(i, i+1);
+               }
+
+        }
+        return newReview;
+    }
 }
