@@ -165,4 +165,45 @@ public class Review {
       return randomNegativeAdj();
     }
   }
+  
+  /* Returns a computer generated fake online review. */
+    public static String fakeReview(String fileName)
+    {
+      String word = "";
+      String reviewText = textToString(fileName);
+      String newReview = "";
+      
+      for (int i = 0; i < reviewText.length(); i++)
+      {
+          if (reviewText.substring(i, i+1).equals(" ") || i == reviewText.length() -1)
+          {
+              if (i == reviewText.length() -1) //adds last letter to the review
+              {
+                  word += reviewText.substring(i, i+1);
+              }
+              
+              if (word.startsWith("*"))
+              {
+                  String newAdjective = "";
+                  while (newAdjective.equals(""))
+                  {
+                      newAdjective = randomAdjective();
+                  }
+                  newReview += newAdjective + getPunctuation(word) + " ";
+                  word = "";
+              }
+              else
+              {
+                  newReview += word + " ";
+                  word = "";
+              }
+          }
+          else
+          {
+              word += reviewText.substring(i, i+1);
+          }
+      }
+      return newReview;
+    }
+
 }
