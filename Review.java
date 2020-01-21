@@ -165,30 +165,28 @@ public class Review {
       return randomNegativeAdj();
     }
   }
-
+  
+  /* Takes an online review and returns the total sentiment value of that review. */
   public static double totalSentiment(String fileName)
   {
-    String word = "";
-    double senValue;
-    senValue = 0.0;
-    String reviewText = textToString(fileName);
-    for (int i = 0; i < reviewText.length(); i++)
-    {
-     String letter = reviewText.substring(i, i+1);
-     
-     if (!(letter.equals(" ")))
-     {
-      word += letter;
-     }
-     else
-     {
-      removePunctuation(word);
-      senValue += sentimentVal(word);
-      word = "";
-     }
-    }
-    return senValue;
-   }
+      double total = 0;
+      String word = "";
+      String reviewText = textToString(fileName);
+      
+      for (int i = 0; i < reviewText.length(); i++)
+      {
+         if (reviewText.substring(i, i+1).equals(" ") || i + 1 == reviewText.length())
+         {
+            total += sentimentVal(removePunctuation(word));
+            word = "";
+         }
+         else
+         {
+            word += reviewText.substring(i, i+1);
+         }
+      }
+      return total;
+  }
   
   public static int starRating(String fileName)
    {
