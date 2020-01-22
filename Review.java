@@ -165,7 +165,31 @@ public class Review {
       return randomNegativeAdj();
     }
   }
- 
+  
+  /* Takes an online review and returns the total sentiment value of that review. */
+  public static double totalSentiment(String fileName)
+  {
+      double total = 0;
+      String word = "";
+      String reviewText = textToString(fileName);
+      
+      // moves through the entire review
+      for (int i = 0; i < reviewText.length(); i++)
+      {
+         // checks if a word has been completed
+         if (reviewText.substring(i, i+1).equals(" ") || i + 1 == reviewText.length())
+         {
+            total += sentimentVal(removePunctuation(word));
+            word = "";
+         }
+         else
+         {
+            word += reviewText.substring(i, i+1);
+         }
+      }
+      return total;
+  }
+  
   public static int starRating(String fileName)
    {
      double sentiment = totalSentiment(fileName);
@@ -236,4 +260,5 @@ public class Review {
       }
       return newReview;
     }
+   }
 }
