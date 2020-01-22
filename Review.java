@@ -201,6 +201,7 @@ public class Review {
       String reviewText = textToString(fileName);
       String newReview = "";
       
+      // goes through the entire review
       for (int i = 0; i < reviewText.length(); i++)
       {
           if (reviewText.substring(i, i+1).equals(" ") || i == reviewText.length() -1)
@@ -210,6 +211,7 @@ public class Review {
                   word += reviewText.substring(i, i+1);
               }
               
+              // finds the adjectives that start with * and changes them
               if (word.startsWith("*"))
               {
                   String newAdjective = "";
@@ -217,6 +219,7 @@ public class Review {
                   {
                       newAdjective = randomAdjective();
                   }
+                  // replaces the old adjective with the new and resets word
                   newReview += newAdjective + getPunctuation(word) + " ";
                   word = "";
               }
