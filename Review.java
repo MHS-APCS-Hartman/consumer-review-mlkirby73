@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import java.io.File;
 import java.util.HashMap;
@@ -192,9 +193,54 @@ public class Review {
        rating = 5;
      }
      return rating;
-    }
+  }
   
-    /* Returns a computer generated online review that can be either positive or negative. */
+  /* Returns a computer generated fake online review. 
+  Precondition: fileName must be a .txt file. */
+    public static String fakeReview(String fileName)
+    {
+      String word = "";
+      String reviewText = textToString(fileName);
+      String newReview = "";
+      
+      // goes through the entire review
+      for (int i = 0; i < reviewText.length(); i++)
+      {
+          if (reviewText.substring(i, i+1).equals(" ") || i == reviewText.length() -1)
+          {
+              if (i == reviewText.length() -1) //adds last letter to the review
+              {
+                  word += reviewText.substring(i, i+1);
+              }
+              
+              // finds the adjectives that start with * and changes them
+              if (word.startsWith("*"))
+              {
+                  String newAdjective = "";
+                  while (newAdjective.equals(""))
+                  {
+                      newAdjective = randomAdjective();
+                  }
+                  // replaces the old adjective with the new and resets word
+                  newReview += newAdjective + getPunctuation(word) + " ";
+                  word = "";
+              }
+              else
+              {
+                  newReview += word + " ";
+                  word = "";
+              }
+          }
+          else
+          {
+              word += reviewText.substring(i, i+1);
+          }
+      }
+      return newReview;
+    }
+
+/* Returns a computer generated online review that can be either positive or negative. 
+Precondition: fileName must be a .txt file. */
     public static String fakeReviewStronger(String fileName)
     {
         String word = "";
