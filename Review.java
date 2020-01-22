@@ -173,8 +173,10 @@ public class Review {
       String word = "";
       String reviewText = textToString(fileName);
       
+      // moves through the entire review
       for (int i = 0; i < reviewText.length(); i++)
       {
+         // checks if a word has been completed
          if (reviewText.substring(i, i+1).equals(" ") || i + 1 == reviewText.length())
          {
             total += sentimentVal(removePunctuation(word));
