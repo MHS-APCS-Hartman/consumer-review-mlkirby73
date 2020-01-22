@@ -218,7 +218,8 @@ public class Review {
      return rating;
     }
   
-  /* Returns a computer generated fake online review. */
+  /* Returns a computer generated fake online review. 
+  Precondition: fileName must be a .txt file. */
     public static String fakeReview(String fileName)
     {
       String word = "";
