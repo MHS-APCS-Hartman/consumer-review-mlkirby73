@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import java.io.File;
 import java.util.HashMap;
@@ -166,30 +167,6 @@ public class Review {
     }
   }
   
-  /* Takes an online review and returns the total sentiment value of that review. */
-  public static double totalSentiment(String fileName)
-  {
-      double total = 0;
-      String word = "";
-      String reviewText = textToString(fileName);
-      
-      // moves through the entire review
-      for (int i = 0; i < reviewText.length(); i++)
-      {
-         // checks if a word has been completed
-         if (reviewText.substring(i, i+1).equals(" ") || i + 1 == reviewText.length())
-         {
-            total += sentimentVal(removePunctuation(word));
-            word = "";
-         }
-         else
-         {
-            word += reviewText.substring(i, i+1);
-         }
-      }
-      return total;
-  }
-  
   public static int starRating(String fileName)
    {
      double sentiment = totalSentiment(fileName);
@@ -216,7 +193,7 @@ public class Review {
        rating = 5;
      }
      return rating;
-    }
+  }
   
   /* Returns a computer generated fake online review. 
   Precondition: fileName must be a .txt file. */
@@ -261,5 +238,63 @@ public class Review {
       }
       return newReview;
     }
-   }
+
+/* Returns a computer generated online review that can be either positive or negative. 
+Precondition: fileName must be a .txt file. */
+    public static String fakeReviewStronger(String fileName)
+    {
+        String word = "";
+        String reviewText = textToString(fileName);
+        String newReview = "";
+        
+        // goes through the entire review
+        for (int i = 0; i < reviewText.length(); i++)
+        {
+             if (reviewText.substring(i, i+1).equals(" ") || i == reviewText.length() -1)
+             {
+                   if (i == reviewText.length() -1) //adds last letter to the review
+                   {
+                      word += reviewText.substring(i, i+1);
+                   }
+                 
+                 // finds the adjectives that start with *
+                 if (word.startsWith("*"))
+                 {
+                     // gets the sentiment value of the word and replaces it with a positive or negative adjective
+                     double sentiment = sentimentVal(word);
+                     String newAdjective = "";
+                     
+                     if (sentiment > 0)
+                     {
+                         while (newAdjective.equals("") || sentimentVal(newAdjective) <= sentiment)
+                         {
+                           newAdjective = randomPositiveAdj();
+                         }
+                     }
+                     else
+                     {
+                         while (newAdjective.equals("") || sentimentVal(newAdjective) >= sentiment)
+                         {
+                           newAdjective = randomNegativeAdj();
+                         }
+                     }
+                     
+                     //replaces the old adjective with the new adjective
+                     newReview += newAdjective + getPunctuation(word) + " ";
+                     word = "";
+                 }
+                 else
+                 {
+                     newReview += word + " ";
+                     word = "";
+                 }
+               }
+               else
+               {
+                  word += reviewText.substring(i, i+1);
+               }
+
+        }
+        return newReview;
+    }
 }
